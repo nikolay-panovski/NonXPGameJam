@@ -1,0 +1,1 @@
+Made and distributed by prime31 (https://prime31.com/), at https://github.com/prime31/CharacterController2D, under Attribution-NonCommercial-ShareAlike 3.0 Unported license (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US).
