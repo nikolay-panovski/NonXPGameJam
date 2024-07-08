@@ -29,7 +29,6 @@ public class RaindropMove : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject otherCollidedObject = collision.collider.gameObject;
-        Debug.Log(otherCollidedObject);
         if (!otherCollidedObject.CompareTag("Raindrops"))   // ignore overlaps with other raindrops
         {
             // determine which collider we hit

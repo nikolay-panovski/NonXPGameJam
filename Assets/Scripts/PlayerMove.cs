@@ -35,16 +35,14 @@ public class PlayerMove : MonoBehaviour
         if (IsPressingLeft())
         {
             velocity.x = -UsedSpeed;
-            // video: flip transform.localScale when going left!?
-            // we can do simpler with only the sprite - assume default sprite facing left:
-            playerSprite.flipX = false;
+            // we can do simpler than scale with only the sprite - assume default sprite facing RIGHT:
+            playerSprite.flipX = true;
         }
         if (IsPressingRight())
         {
             velocity.x = UsedSpeed;
-            // video: flip transform.localScale when going right!?
-            // assume default sprite facing left:
-            playerSprite.flipX = true;
+            // assume default sprite facing RIGHT:
+            playerSprite.flipX = false;
         }
         if (!IsPressingLeft() && !IsPressingRight())
         {
