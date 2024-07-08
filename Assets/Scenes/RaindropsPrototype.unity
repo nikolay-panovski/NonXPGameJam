@@ -987,6 +987,10 @@ PrefabInstance:
       value: Player_Trapezoid
       objectReference: {fileID: 0}
     - target: {fileID: 8296352829405251454, guid: 9239d06b9d4a44d4ab9fb298876316f6, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296352829405251454, guid: 9239d06b9d4a44d4ab9fb298876316f6, type: 3}
       propertyPath: m_TagString
       value: NotCollected
       objectReference: {fileID: 0}
