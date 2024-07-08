@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1241160470526191893}
   - component: {fileID: 2311265978683609822}
   - component: {fileID: 63793276934331870}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Raindrop
-  m_TagString: Untagged
+  m_TagString: Raindrops
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

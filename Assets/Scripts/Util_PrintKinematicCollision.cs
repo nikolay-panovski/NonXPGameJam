@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Util_PrintBucketCollision : MonoBehaviour
+public class Util_PrintKinematicCollision : MonoBehaviour
 {
     private void OnCollisionEnter2D(Collision2D collision)
     {
