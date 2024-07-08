@@ -9,6 +9,9 @@ public class LevelManager : MonoBehaviour
     private static int numRaindropsGround;
     private static int numRaindropsBucket;
 
+    [SerializeField] private SpriteRenderer bucketWaterSprite;
+    [SerializeField] private Sprite[] bucketWaterStates;
+
     // potato singleton
     private void Awake()
     {
@@ -35,6 +38,28 @@ public class LevelManager : MonoBehaviour
         {
             numRaindropsGround++;
             Debug.Log("Drops on ground: " + numRaindropsGround);
+        }
+
+        // check for number of raindrops in bucket and adjust bucket sprite:
+        switch (numRaindropsBucket)
+        {
+            case 10:    // hardcoded...
+                bucketWaterSprite.sprite = bucketWaterStates[0];
+                break;
+            case 20:
+                bucketWaterSprite.sprite = bucketWaterStates[1];
+                break;
+            case 30:
+                bucketWaterSprite.sprite = bucketWaterStates[2];
+                break;
+            case 40:
+                bucketWaterSprite.sprite = bucketWaterStates[3];
+                break;
+            case 50:
+                bucketWaterSprite.sprite = bucketWaterStates[4];
+                break;
+            default:    // any other number should trigger no change
+                break;
         }
     }
 
