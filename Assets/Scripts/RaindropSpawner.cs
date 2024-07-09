@@ -13,6 +13,7 @@ public class RaindropSpawner : MonoBehaviour
     private float spawnDelay;
     private float lastSpawnAt;
 
+    private bool levelStarted = false;
     private bool levelOver = false;
 
     // Start is called before the first frame update
@@ -20,13 +21,14 @@ public class RaindropSpawner : MonoBehaviour
     {
         GetNextRandom(spawnDelayBounds);
 
+        LevelManager.Instance.OnLevelGameplayStarted += OnLevelStartedStartSpawning;
         LevelManager.Instance.OnLevelTimeOver += OnLevelTimeOverStopSpawning;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!levelOver)
+        if (levelStarted && !levelOver)
         {
             if (Time.time - lastSpawnAt > spawnDelay)
             {
@@ -52,6 +54,11 @@ public class RaindropSpawner : MonoBehaviour
         return Random.Range(fromRange.x, fromRange.y);
     }
 
+    private void OnLevelStartedStartSpawning()
+    {
+        levelStarted = true;
+    }
+
     private void OnLevelTimeOverStopSpawning()
     {
         levelOver = true;
@@ -59,6 +66,7 @@ public class RaindropSpawner : MonoBehaviour
 
     private void OnDestroy()
     {
+        LevelManager.Instance.OnLevelGameplayStarted -= OnLevelStartedStartSpawning;
         LevelManager.Instance.OnLevelTimeOver -= OnLevelTimeOverStopSpawning;
     }
 }

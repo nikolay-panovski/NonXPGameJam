@@ -16,6 +16,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float maxRoundTime;
     private float timeLeft;
 
+    [SerializeField] private GameObject narrativeDialogObject;  // ~~out of time, bake the narrative guy in
+
     // following section: too many things for only this class (also public, for that part I blame Unity serialization)
     [Header("Level type/target stats")]
     public int targetWaterPercent;
@@ -26,6 +28,8 @@ public class LevelManager : MonoBehaviour
 
     public event Action OnLevelTimeOver;
     private bool timeAlreadyOver = false;
+    public event Action OnLevelGameplayStarted;
+    private bool levelAlreadyStarted = false;
 
     // potato singleton
     private void Awake()
@@ -41,27 +45,46 @@ public class LevelManager : MonoBehaviour
     {
         RaindropMove.OnRaindropDestroyed += RaindropDestroyedCount;
 
+        narrativeDialogObject.SetActive(true);   // good extra in order to not have to care about the active state in editor
+                                                 // but assumes every level should start in that same way
+
         timeLeft = maxRoundTime;
         timerText.text = maxRoundTime.ToString();
     }
 
+    // level loop including before narrative and after end popup
     private void Update()
     {
-        timeLeft -= Time.deltaTime;
-
-        if (timeLeft <= 0f)
+        // ~~out of time, bake the narrative guy in
+        if (!levelAlreadyStarted)
         {
-            // ONLY ONCE end round - stop spawns, do popup...
-            if (!timeAlreadyOver)
+            if (Input.GetMouseButtonDown(0))
             {
-                OnLevelTimeOver?.Invoke();
-                timeAlreadyOver = true;
-            }
-            timeLeft = 0f;
-        }
+                // ONLY ONCE start round - tell others to start working
+                narrativeDialogObject.SetActive(false);
 
-        // update UI
-        timerText.text = Mathf.CeilToInt(timeLeft).ToString();
+                OnLevelGameplayStarted?.Invoke();
+                levelAlreadyStarted = true;
+            }
+        }
+        else
+        {
+            timeLeft -= Time.deltaTime;
+
+            if (timeLeft <= 0f)
+            {
+                // ONLY ONCE end round - stop spawns, do popup...
+                if (!timeAlreadyOver)
+                {
+                    OnLevelTimeOver?.Invoke();
+                    timeAlreadyOver = true;
+                }
+                timeLeft = 0f;
+            }
+
+            // update UI
+            timerText.text = Mathf.CeilToInt(timeLeft).ToString();
+        }
     }
 
     private void RaindropDestroyedCount(bool bucketCollected, Vector3 atPosition)
@@ -69,12 +92,12 @@ public class LevelManager : MonoBehaviour
         if (bucketCollected)
         {
             numRaindropsBucket++;
-            Debug.Log("Drops in bucket: " + numRaindropsBucket);
+            //Debug.Log("Drops in bucket: " + numRaindropsBucket);
         }
         else
         {
             numRaindropsGround++;
-            Debug.Log("Drops on ground: " + numRaindropsGround);
+            //Debug.Log("Drops on ground: " + numRaindropsGround);
         }
 
         // check for number of raindrops in bucket and adjust bucket sprite:
