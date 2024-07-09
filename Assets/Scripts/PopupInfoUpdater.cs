@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -28,7 +29,7 @@ public class PopupInfoUpdater : MonoBehaviour
         int bucketWaterPercent = 100 - groundWaterPercent;
 
         // update text infos (lazy - initial/static text is assumed to be set in inspector, here only append level stats)
-        //textTerrain.text = textTerrain.text + "";
+        textTerrain.text = textTerrain.text + Enum.GetName(typeof(TerrainType), GroundManager.Instance.thisLevelTerrain);  // DECOUPLE THIS?
         textTargetWater.text = textTargetWater.text + LevelManager.Instance.targetWaterPercent + "%";
         textGroundWater.text = textGroundWater.text + groundWaterPercent + "%";
         textBucketWater.text = textBucketWater.text + bucketWaterPercent + "%)";    // bonus hack for the text I decided should be in parentheses too
