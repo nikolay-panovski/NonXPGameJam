@@ -6,8 +6,8 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
 
-    private static int numRaindropsGround;
-    private static int numRaindropsBucket;
+    public int numRaindropsGround { get; private set; }
+    public int numRaindropsBucket { get; private set; }
 
     [SerializeField] private SpriteRenderer bucketWaterSprite;
     [SerializeField] private Sprite[] bucketWaterStates;
@@ -15,6 +15,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private float maxRoundTime;
     private float timeLeft;
+
+    // following section: too many things for only this class (also public, for that part I blame Unity serialization)
+    [Header("Level type/target stats")]
+    public int targetWaterPercent;
+    [Tooltip("If ground water is within this many percent of target water, consider good/success, else bad; color stats accordingly.")]
+    public float targetPercentMargin;
+    public Color targetSuccessColor = Color.green;
+    public Color targetFailColor = Color.red;
 
     public event Action OnLevelTimeOver;
     private bool timeAlreadyOver = false;
