@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RaindropSpawner : MonoBehaviour
@@ -15,23 +13,28 @@ public class RaindropSpawner : MonoBehaviour
     private float spawnDelay;
     private float lastSpawnAt;
 
+    private bool levelOver = false;
+
     // Start is called before the first frame update
     void Start()
     {
         GetNextRandom(spawnDelayBounds);
+
+        LevelManager.Instance.OnLevelTimeOver += OnLevelTimeOverStopSpawning;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.time - lastSpawnAt > spawnDelay)
+        if (!levelOver)
         {
-            SpawnRaindrop();
-            spawnDelay = GetNextRandom(spawnDelayBounds);
-            lastSpawnAt = Time.time;
+            if (Time.time - lastSpawnAt > spawnDelay)
+            {
+                SpawnRaindrop();
+                spawnDelay = GetNextRandom(spawnDelayBounds);
+                lastSpawnAt = Time.time;
+            }
         }
-
-
     }
 
     private void SpawnRaindrop()
@@ -47,5 +50,15 @@ public class RaindropSpawner : MonoBehaviour
     private float GetNextRandom(Vector2 fromRange)
     {
         return Random.Range(fromRange.x, fromRange.y);
+    }
+
+    private void OnLevelTimeOverStopSpawning()
+    {
+        levelOver = true;
+    }
+
+    private void OnDestroy()
+    {
+        LevelManager.Instance.OnLevelTimeOver -= OnLevelTimeOverStopSpawning;
     }
 }
